@@ -1,13 +1,20 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <random>
 
 using namespace std;
 
-int GetWordLength()
+int OrganiseWords(int minLength, int maxLength)
 {
-	int length = 0, minLength = 4, maxLength = 15;
-	bool valid = false; 
+
+	return 0;
+}
+
+int GetWordLength(int minLength,int maxLength)
+{	
+	int length = 0;
+	bool bValid = false; 
 
 	//user select word length.
 	cout << "Please select an isogram length: ";
@@ -16,13 +23,13 @@ int GetWordLength()
 	{
 		if (cin >> length && length >= minLength && length <= maxLength)
 		{
-			valid = true;
+			bValid = true;
 		}
 		else
 		{
 			cout << "Error! Word length must be greater than " << minLength << " and less than " << maxLength << ".\n";
 		}
-	} while (!valid);
+	} while (!bValid);
 
 	//repeat to user.
 	cout << "You selected a " << length << " letter isogram." << "\n";
@@ -30,18 +37,42 @@ int GetWordLength()
 	return length;
 }
 
+int RandomNumber(int maxNumber)
+{
+	random_device randSeed;  //Seed random number gen.
+	mt19937 randNumber(randSeed());
+	uniform_int_distribution<int> randRange(1, maxNumber);
+
+	return randRange(randNumber);
+}
+
 string GenerateWord(int wordLength)
 {
-	string newWord = "";
+	string newWord = "hello";
+	string line;
 	ifstream isograms("isogram.txt");
+	int numberOfLines = 0;
 
+	while (getline(isograms, line))
+	{
+		numberOfLines++;
+	}
+
+	int pickLine = RandomNumber(numberOfLines);
+	cout << pickLine << "\n";
+	
 	return newWord;
 }
 
 int main()
 {
+	const int minLength = 4, maxLength = 15;
+
+	//Organise words
+	OrganiseWords(minLength, maxLength);
+
 	//Get word length
-	int wordLength = GetWordLength();
+	const int wordLength = GetWordLength(minLength,maxLength);
 
 	//generate word.
 	string word = "";

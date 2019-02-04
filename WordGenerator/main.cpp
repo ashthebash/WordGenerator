@@ -12,16 +12,16 @@ vector<vector <string> > OrganiseWords(vector<vector <string> > words, int numbe
 	int wordIndex = 0;
 	vector<string> wordColumn;
 
+	// Read text file lines and push each X-Letter word to the corresponding column.
 	while (getline(file, line))
 	{
 		if (line.length() == numberOfLetters)
 		{
 			wordColumn.push_back(line);
-			cout << wordColumn[wordIndex] << endl;
 			wordIndex++;
 		}
 	}
-	words.push_back(wordColumn);
+	words.push_back(wordColumn); //Push word column as a row in multidimensional vector.
 	return words;
 }
 
@@ -31,6 +31,7 @@ int WordListLength()
 	string line;
 	int numberOfLines = 0;
 
+	//Get number of lines in the text file.
 	while (getline(file, line))
 	{
 		numberOfLines++;

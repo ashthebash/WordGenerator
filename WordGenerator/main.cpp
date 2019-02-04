@@ -82,6 +82,8 @@ string GenerateWord(int wordLength, int minLength, vector<vector <string> > word
 	int wordRowLength = words[wordColumn].size();
 	int pickword = RandomNumber(wordRowLength);
 
+	cout << "There are " << wordRowLength << " " << wordLength << " letter isograms. \n";
+
 	newWord = words[wordColumn][pickword];
 	
 	return newWord;

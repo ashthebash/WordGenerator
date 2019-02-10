@@ -1,9 +1,44 @@
 #include <iostream>
 #include <fstream>
+#include<sstream>
 #include <string>
 #include <random>
 
 using namespace std;
+
+vector<vector <string> > OrganiseWords(vector<vector <string> > words, int numberOfLetters);
+int WordListLength();
+int CheckIfInt(int& length);
+int GetWordLength(int minLength, int maxLength);
+int RandomNumber(int maxNumber);
+string GenerateWord(int wordLength, int minLength, vector<vector <string> > words);
+
+int main()
+{
+	const int minLength = 4, maxLength = 15;
+	vector< vector<string> > words;
+	int numberOfLines = WordListLength();
+	int numberOfLetters = minLength;
+	int wordRow = 0;
+
+	//Organise words
+	for (int i = 0; i < maxLength - minLength + 1; i++)
+	{
+		words = OrganiseWords(words, numberOfLetters);
+		wordRow++;
+		numberOfLetters++;
+	}
+
+	//Get word length
+	const int wordLength = GetWordLength(minLength,maxLength);
+
+	//generate word.
+	string word = "";
+	word = GenerateWord(wordLength, minLength, words);
+	cout << "The word is: " << word << endl;
+
+	return 0;
+}
 
 vector<vector <string> > OrganiseWords(vector<vector <string> > words, int numberOfLetters)
 {
@@ -40,25 +75,47 @@ int WordListLength()
 	return numberOfLines;
 }
 
-int GetWordLength(int minLength,int maxLength)
-{	
-	int length = 0;
-	bool bValid = false; 
+int CheckIfInt(int& length)
+{
+	string input;
 
-	//user select word length.
-	cout << "Please select an isogram length: ";
-	
-	do
+	while (1)
 	{
-		if (cin >> length && length >= minLength && length <= maxLength)
+		cout << "Please select an isogram length: ";
+		cin >> input;
+
+		istringstream stream(input);
+
+		stream >> length;
+
+		if (!stream.eof())
 		{
-			bValid = true;
+			cout << "Error, please enter numerical values! \n";
+			continue;
 		}
 		else
 		{
-			cout << "Error! Word length must be greater than " << minLength << " and less than " << maxLength << ".\n";
+			break;
 		}
-	} while (!bValid);
+	}
+	return length;
+}
+
+int GetWordLength(int minLength, int maxLength)
+{
+	int length = 0;
+	bool bValid = false;
+
+	while (1)
+	{
+		CheckIfInt(length);
+		if (length < minLength || length > maxLength)
+		{
+			cout << "Error! Word length must be greater than " << minLength << " and less than " << maxLength << ".\n";
+			continue;
+		}
+		break;
+	}
 
 	//repeat to user.
 	cout << "You selected a " << length << " letter isogram." << "\n";
@@ -87,31 +144,4 @@ string GenerateWord(int wordLength, int minLength, vector<vector <string> > word
 	newWord = words[wordColumn][pickword];
 	
 	return newWord;
-}
-
-int main()
-{
-	const int minLength = 4, maxLength = 15;
-	vector< vector<string> > words;
-	int numberOfLines = WordListLength();
-	int numberOfLetters = minLength;
-	int wordRow = 0;
-
-	//Organise words
-	for (int i = 0; i < maxLength - minLength + 1; i++)
-	{
-		words = OrganiseWords(words, numberOfLetters);
-		wordRow++;
-		numberOfLetters++;
-	}
-
-	//Get word length
-	const int wordLength = GetWordLength(minLength,maxLength);
-
-	//generate word.
-	string word = "";
-	word = GenerateWord(wordLength, minLength, words);
-	cout << "The word is: " << word << endl;
-
-	return 0;
 }
